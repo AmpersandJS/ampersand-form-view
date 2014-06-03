@@ -1,0 +1,24 @@
+{
+  "name": "ampersand-form-view",
+  "description": "Completely customizable form lib for bulletproof clientside forms.",
+  "version": "0.0.0",
+  "author": "Henrik Joreteg <henrik@andyet.net>",
+  "bugs": {
+    "url": "https://github.com/ampersandjs/ampersand-form-view/issues"
+  },
+  "homepage": "https://github.com/ampersandjs/ampersand-form-view",
+  "keywords": [
+    "forms",
+    "ampersand",
+    "browser"
+  ],
+  "license": "MIT",
+  "main": "form-view.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ampersandjs/ampersand-form-view"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
