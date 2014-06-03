@@ -13,12 +13,9 @@
     "browser"
   ],
   "license": "MIT",
-  "main": "form-view.js",
+  "main": "ampersand-form-view.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/ampersandjs/ampersand-form-view"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

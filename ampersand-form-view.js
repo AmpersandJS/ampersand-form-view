@@ -1,6 +1,3 @@
-var domify = require('domify');
-
-
 function FormView(opts) {
     this.el = opts.el;
     this.validCallback = opts.validCallback || function () {};
