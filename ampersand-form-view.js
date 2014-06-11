@@ -1,33 +1,51 @@
 var BBEvents = require('backbone-events-standalone');
 var extend = require('extend-object');
 
+var result = function (obj, prop) {
+    if (typeof obj[prop] === 'function') return obj[prop]();
+    return prop;
+};
+
 
 function FormView(opts) {
     this.el = opts.el;
-    this.validCallback = opts.validCallback || function () {};
-    this.submitCallback = opts.submitCallback || function () {};
-    this.clean = opts.clean || function (res) { return res };
+    this.validCallback = opts.validCallback || this.validCallback || function () {};
+    this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
+
+    if (opts.data) this.data = opts.data;
+    if (opts.model) this.model = opts.model;
+
+    this.clean = opts.clean || function (res) { return res; };
     this.valid = false;
     this.preventDefault = opts.preventDefault === false ? false : true;
     this.autoAppend = opts.autoAppend === false ? false : true;
 
     // storage for our fields
-    this.fields = {};
-    this.fieldArray = [];
+    this._fieldViews = {};
+    this._fieldViewsArray = [];
 
     // add all our fields
     this.render();
 
-    (opts.fields || []).forEach(this.addField.bind(this));
+    (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
 
-    this.checkValid(true);
+    if (this.initialize) this.initialize();
+
+    //defer till after returning from initialize
+    setTimeout(function () {
+        this.checkValid(true);
+    }.bind(this), 0);
 }
 
 
 extend(FormView.prototype, BBEvents, {
+    data: null,
+    model: null,
+    fields: null,
+
     addField: function (fieldView) {
-        this.fields[fieldView.name] = fieldView;
-        this.fieldArray.push(fieldView);
+        this._fieldViews[fieldView.name] = fieldView;
+        this._fieldViewsArray.push(fieldView);
         if (this.fieldContainerEl) {
             fieldView.parent = this;
             fieldView.render();
@@ -36,13 +54,13 @@ extend(FormView.prototype, BBEvents, {
     },
 
     removeField: function (name) {
-        delete this.fields[fieldView.name];
-        this.fieldArray.splice(this.fieldArray.indexOf(field), 1);
+        delete this._fieldViews[fieldView.name];
+        this._fieldViewsArray.splice(this._fieldViewsArray.indexOf(field), 1);
         this.getField(name).remove();
     },
 
     getField: function (name) {
-        return this.fields[name];
+        return this._fieldViews[name];
     },
 
     setValid: function (now, forceFire) {
@@ -54,7 +72,7 @@ extend(FormView.prototype, BBEvents, {
     },
 
     checkValid: function (forceFire) {
-        var valid = this.fieldArray.every(function (field) {
+        var valid = this._fieldViewsArray.every(function (field) {
             return field.valid;
         });
         this.setValid(valid, forceFire);
@@ -62,7 +80,7 @@ extend(FormView.prototype, BBEvents, {
     },
 
     beforeSubmit: function () {
-        this.fieldArray.forEach(function (field) {
+        this._fieldViewsArray.forEach(function (field) {
             return field.beforeSubmit();
         });
     },
@@ -81,7 +99,7 @@ extend(FormView.prototype, BBEvents, {
         this.el.removeEventListener('submit', this.handleSubmit, false);
         var parent = this.el.parentNode;
         if (parent) parent.removeChild(this.el);
-        this.fieldArray.forEach(function (field) {
+        this._fieldViewsArray.forEach(function (field) {
             field.remove();
         });
     },
@@ -103,8 +121,8 @@ extend(FormView.prototype, BBEvents, {
 
     getData: function () {
         var res = {};
-        for (var key in this.fields) {
-            res[key] = this.fields[key].value;
+        for (var key in this._fieldViews) {
+            res[key] = this._fieldViews[key].value;
         }
         return this.clean(res);
     },
@@ -121,5 +139,16 @@ extend(FormView.prototype, BBEvents, {
         this.el.addEventListener('submit', this.handleSubmit, false);
     }
 });
+
+FormView.extend = function (obj) {
+    var child = function () {
+       FormView.apply(this, arguments);
+    };
+
+    extend(child.prototype, FormView.prototype);
+    extend(child.prototype, obj);
+
+    return child;
+};
 
 module.exports = FormView;
