@@ -81,7 +81,7 @@ extend(FormView.prototype, BBEvents, {
 
     beforeSubmit: function () {
         this._fieldViewsArray.forEach(function (field) {
-            return field.beforeSubmit();
+            if (field.beforeSubmit) field.beforeSubmit();
         });
     },
 
