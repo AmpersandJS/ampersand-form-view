@@ -137,6 +137,7 @@ extend(FormView.prototype, BBEvents, {
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
+        this.rendered = true;
     }
 });
 
