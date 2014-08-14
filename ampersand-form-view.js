@@ -8,6 +8,8 @@ var result = function (obj, prop) {
 
 
 function FormView(opts) {
+    opts = opts || {};
+
     this.el = opts.el;
     this.validCallback = opts.validCallback || this.validCallback || function () {};
     this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
