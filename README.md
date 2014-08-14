@@ -35,12 +35,13 @@ Here's how you might draw a form view as a subview.
 // we'll just use an ampersand-view here as an 
 // example parent view
 var View = require('ampersand-view');
-var InputView = require('ampersand-text-input-view');
+var FormView = require('ampersand-form-view');
+var InputView = require('ampersand-input-view');
 
-
-module.exports = View.extend({
-    template: '<div><p>App form</p><form role="app-edit-form"></form></div>'
+var AwesomeFormView = View.extend({
+    template: '<div><p>App form</p><form role="app-edit-form"></form></div>',
     render: function () {
+        this.renderWithTemplate();
         this.form = new FormView({
             el: this.getByRole('app-edit-form'),
             submitCallback: function (obj) {
@@ -76,10 +77,6 @@ module.exports = View.extend({
                             if (val.length < 5) return "Must be 5+ characters.";
                         }
                     ]
-                }),
-                new SomeOtherFieldView({
-                    name: 'something',
-                    ...
                 })
             ]
         });
@@ -90,6 +87,9 @@ module.exports = View.extend({
         this.registerSubview(this.form);
     }
 });
+
+var awesomeFormView = new AwesomeFormView();
+awesomeFormView.render();
 ```
 
 ## credits
