@@ -39,11 +39,11 @@ var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 
 var AwesomeFormView = View.extend({
-    template: '<div><p>App form</p><form role="app-edit-form"></form></div>',
+    template: '<div><p>App form</p><form data-hook="app-edit-form"></form></div>',
     render: function () {
         this.renderWithTemplate();
         this.form = new FormView({
-            el: this.getByRole('app-edit-form'),
+            el: this.queryByHook('app-edit-form'),
             submitCallback: function (obj) {
                 console.log('form submitted! Your data:', obj);
             },
