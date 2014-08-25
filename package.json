@@ -1,7 +1,7 @@
 {
   "name": "ampersand-form-view",
   "description": "Completely customizable form lib for bulletproof clientside forms.",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "author": "Henrik Joreteg <henrik@andyet.net>",
   "bugs": {
     "url": "https://github.com/ampersandjs/ampersand-form-view/issues"
