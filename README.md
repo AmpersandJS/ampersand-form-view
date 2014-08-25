@@ -4,11 +4,11 @@ ampersand-form-view is a wrapper view for easily building complex forms on the c
 
 It would work quite well with backbone apps or anything else really, it has no external dependencies.
 
-At a high level, the way it works is you define a view object (by making an object that following the <a href="http://ampersandjs.com/#-view-conventions">simple view conventions</a> of ampersand).
+At a high level, the way it works is you define a view object (by making an object that following the <a href="http://ampersandjs.com/learn/view-conventions">simple view conventions</a> of ampersand).
 
 That form can be given an array of field views.
 
-These fields are also <a href="http://ampersandjs.com/#-view-conventions">views</a> but just follow a few more conventions in order to be able to work with a our form view.
+These fields are also <a href="http://ampersandjs.com/learn/view-conventions">views</a> but just follow a few more conventions in order to be able to work with a our form view.
 
 Those rules are as follows: 
 
