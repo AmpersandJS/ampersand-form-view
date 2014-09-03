@@ -127,6 +127,12 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
+    reset: function () {
+        this._fieldViewsArray.forEach(function (field) {
+            field.input.value = '';
+        });
+    },
+
     render: function () {
         if (this.rendered) return;
         if (!this.el) {
