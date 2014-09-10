@@ -54,9 +54,12 @@ extend(FormView.prototype, BBEvents, {
     },
 
     removeField: function (name) {
-        var field = this.getField(name).remove();
-        delete this._fieldViews[name];
-        this._fieldViewsArray.splice(this._fieldViewsArray.indexOf(field), 1);
+        var field = this.getField(name);
+        if (field) {
+            field.remove();
+            delete this._fieldViews[name];
+            this._fieldViewsArray.splice(this._fieldViewsArray.indexOf(field), 1);
+        }
     },
 
     getField: function (name) {
