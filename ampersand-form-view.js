@@ -129,7 +129,9 @@ extend(FormView.prototype, BBEvents, {
 
     reset: function () {
         this._fieldViewsArray.forEach(function (field) {
-            field.input.value = '';
+            if (typeof field.reset === 'function') {
+                field.reset();
+            }
         });
     },
 
