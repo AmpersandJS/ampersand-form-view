@@ -3,7 +3,7 @@ var extend = require('extend-object');
 
 var result = function (obj, prop) {
     if (typeof obj[prop] === 'function') return obj[prop]();
-    return prop;
+    return obj[prop];
 };
 
 
