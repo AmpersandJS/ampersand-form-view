@@ -127,9 +127,9 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
-    clearData: function () {
+    clearFields: function () {
         for (var key in this._fieldViews) {
-            this._fieldViews[key].value = null;
+            this._fieldViews[key].clear();
         }
     },
 
