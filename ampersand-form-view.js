@@ -127,9 +127,9 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
-    clearFields: function () {
+    clearFields: function (skipValidation) {
         for (var key in this._fieldViews) {
-            this._fieldViews[key].clear();
+            this._fieldViews[key].clear(skipValidation);
         }
     },
 
