@@ -127,16 +127,24 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
+    clearData: function () {
+        for (var key in this._fieldViews) {
+            this._fieldViews[key].value = null;
+        }
+    },
+
     render: function () {
         if (this.rendered) return;
         if (!this.el) {
             this.el = document.createElement('form');
         }
+
         if (this.autoAppend) {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
+
         this.rendered = true;
     }
 });
