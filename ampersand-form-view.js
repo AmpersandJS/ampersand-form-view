@@ -140,13 +140,11 @@ extend(FormView.prototype, BBEvents, {
         if (!this.el) {
             this.el = document.createElement('form');
         }
-
         if (this.autoAppend) {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
-
         this.rendered = true;
     }
 });
