@@ -129,7 +129,7 @@ extend(FormView.prototype, BBEvents, {
 
     clear: function (skipValidation) {
         for (var key in this._fieldViews) {
-            if (this._fieldViews[key].clear === 'function') {
+            if (typeof this._fieldViews[key].clear === 'function') {
                 this._fieldViews[key].clear(skipValidation);
             }
         }
