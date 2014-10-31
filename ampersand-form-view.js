@@ -1,3 +1,4 @@
+/*$AMPERSAND_VERSION*/
 var BBEvents = require('backbone-events-standalone');
 var extend = require('extend-object');
 
