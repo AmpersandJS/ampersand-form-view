@@ -32,7 +32,7 @@ function FormView(opts) {
 
     (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
 
-    if (this.initialize) this.initialize();
+    if (this.initialize) this.initialize.apply(this, arguments);
 
     //defer till after returning from initialize
     setTimeout(function () {
