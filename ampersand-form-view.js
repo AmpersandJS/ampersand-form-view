@@ -133,6 +133,14 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
+    reset: function () {
+        this._fieldViewsArray.forEach(function (field) {
+            if (typeof field.reset === 'function') {
+                field.reset();
+            }
+        });
+    },
+
     render: function () {
         if (this.rendered) return;
         if (!this.el) {
