@@ -130,10 +130,22 @@ extend(FormView.prototype, BBEvents, {
         return this.clean(res);
     },
 
+    each: function (fn) {
+        return this._fieldViewsArray.forEach(fn);
+    },
+
     reset: function () {
-        this._fieldViewsArray.forEach(function (field) {
+        this.each(function (field) {
             if (isFunction(field.reset)) {
                 field.reset();
+            }
+        });
+    },
+
+    clear: function (resetValidation) {
+        this.each(function (field) {
+            if (isFunction(field.clear)) {
+                field.clear(resetValidation);
             }
         });
     },
