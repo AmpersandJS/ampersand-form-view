@@ -92,9 +92,22 @@ var awesomeFormView = new AwesomeFormView();
 awesomeFormView.render();
 ```
 
+## API Reference
+
+### reset `formView.reset()`
+
+Calls reset on all fields in the form that have the method. Intended to be used to set form back to original state.
+
+
+## Changelog
+
+- 2.2.3 - Adding `reset`. Starting in on building API reference.
+
 ## credits
 
 Created by [@HenrikJoreteg](http://twitter.com/henrikjoreteg)
+
+
 
 ## license
 

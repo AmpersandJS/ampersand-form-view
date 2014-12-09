@@ -1,0 +1,13 @@
+{
+  "latedef": true,
+  "quotmark": true,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "predef": [
+    "require",
+    "setTimeout",
+    "document",
+    "module"
+  ]
+}

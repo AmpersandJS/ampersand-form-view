@@ -1,11 +1,8 @@
 /*$AMPERSAND_VERSION*/
 var BBEvents = require('backbone-events-standalone');
-var extend = require('extend-object');
-
-var result = function (obj, prop) {
-    if (typeof obj[prop] === 'function') return obj[prop]();
-    return obj[prop];
-};
+var isFunction = require('amp-is-function');
+var extend = require('amp-extend');
+var result = require('amp-result');
 
 
 function FormView(opts) {
@@ -135,7 +132,7 @@ extend(FormView.prototype, BBEvents, {
 
     reset: function () {
         this._fieldViewsArray.forEach(function (field) {
-            if (typeof field.reset === 'function') {
+            if (isFunction(field.reset)) {
                 field.reset();
             }
         });
