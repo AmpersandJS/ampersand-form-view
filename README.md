@@ -103,7 +103,8 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
     * called on form submit
 * `validCallback` : function
     *  this valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for exmaple.
-
+* `clean` : function
+    * Let's you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
 
 
 ## credits
