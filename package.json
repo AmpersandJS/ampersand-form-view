@@ -24,6 +24,7 @@
     "ampersand-view": "^7.2.0",
     "browserify": "^7.0.0",
     "function-bind": "^1.0.2",
+    "run-browser": "^2.0.2",
     "tap-spec": "^2.1.1",
     "tape": "^3.0.3",
     "tape-run": "^0.3.0"
@@ -41,6 +42,7 @@
     "url": "git://github.com/ampersandjs/ampersand-form-view"
   },
   "scripts": {
+    "start": "run-browser test/index.js",
     "test": "browserify test/index.js | tape-run | tap-spec"
   }
 }
