@@ -1,13 +1,16 @@
+/*$AMPERSAND_VERSION*/
 var BBEvents = require('backbone-events-standalone');
 var extend = require('extend-object');
 
 var result = function (obj, prop) {
     if (typeof obj[prop] === 'function') return obj[prop]();
-    return prop;
+    return obj[prop];
 };
 
 
 function FormView(opts) {
+    opts = opts || {};
+
     this.el = opts.el;
     this.validCallback = opts.validCallback || this.validCallback || function () {};
     this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
@@ -29,7 +32,7 @@ function FormView(opts) {
 
     (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
 
-    if (this.initialize) this.initialize();
+    if (this.initialize) this.initialize.apply(this, arguments);
 
     //defer till after returning from initialize
     setTimeout(function () {
@@ -54,9 +57,12 @@ extend(FormView.prototype, BBEvents, {
     },
 
     removeField: function (name) {
-        delete this._fieldViews[fieldView.name];
-        this._fieldViewsArray.splice(this._fieldViewsArray.indexOf(field), 1);
-        this.getField(name).remove();
+        var field = this.getField(name);
+        if (field) {
+            field.remove();
+            delete this._fieldViews[name];
+            this._fieldViewsArray.splice(this._fieldViewsArray.indexOf(field), 1);
+        }
     },
 
     getField: function (name) {

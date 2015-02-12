@@ -92,6 +92,21 @@ var awesomeFormView = new AwesomeFormView();
 awesomeFormView.render();
 ```
 
+## FormView Options `FormView.extend(options)`
+Standard <a href="http://ampersandjs.com/learn/view-conventions">view conventions</a> apply, with the following options added:
+
+* `autoAppend` : boolean (default: true)
+    * Adds new nodes for all fields defined in the `fields` array.  Use `autoAppend: false` in conjuction with `el: yourElement` in order to use your own form layout
+* `fields` : array
+    * Array of `FieldView`s.  If `autoAppend` is true, nodes defined by the view are built and appended to the end of the FormView.
+* `submitCallback` : function
+    * called on form submit
+* `validCallback` : function
+    *  this valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for exmaple.
+* `clean` : function
+    * Let's you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
+
+
 ## credits
 
 Created by [@HenrikJoreteg](http://twitter.com/henrikjoreteg)

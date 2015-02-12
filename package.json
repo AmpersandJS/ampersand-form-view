@@ -1,12 +1,18 @@
 {
   "name": "ampersand-form-view",
   "description": "Completely customizable form lib for bulletproof clientside forms.",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "author": "Henrik Joreteg <henrik@andyet.net>",
+  "browserify": {
+    "transform": [
+      "ampersand-version"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/ampersandjs/ampersand-form-view/issues"
   },
   "dependencies": {
+    "ampersand-version": "^1.0.0",
     "backbone-events-standalone": "0.2.2",
     "extend-object": "^1.0.0"
   },
