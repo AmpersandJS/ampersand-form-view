@@ -1,0 +1,76 @@
+var test = require('tape');
+var FormView = require('../ampersand-form-view');
+
+function FakeField(opts) {
+  opts = opts || {}
+
+  this.valid = opts.valid === false ? false : true;
+  this.name = opts.name || 'fake-field';
+  this.value = opts.value || 'fake-value';
+  this.parent = opts.parent || null;
+  this.beforeSubmit = opts.beforeSubmit || function() {};
+}
+FakeField.prototype = {
+  setValue: function(value) {
+    this.value = value;
+    this.updateParent();
+  },
+
+  setValid: function(valid) {
+    this.valid = valid;
+    this.updateParent();
+  },
+
+  updateParent: function() {
+    if (this.parent) {
+      this.parent.update(this);
+    }
+  },
+
+  render: function() {
+    if (!this.el) {
+      this.el = document.createElement('div')
+    }
+    return this;
+  },
+
+  remove: function() {
+  }
+}
+
+test('submitCallback', function(t) {
+  var form = new FormView({
+    submitCallback: function(data) {
+      t.notEqual(data, undefined, 'should call submitCallback with data');
+      t.end();
+    }
+  });
+  form.render();
+
+  form.handleSubmit(document.createEvent('Event'));
+})
+
+test('beforeSubmit', function(t) {
+  t.end();
+})
+
+test('validCallback', function(t) {
+  var field = new FakeField({valid: false});
+  var count = 2;
+  var form = new FormView({
+    fields: [ field ],
+    validCallback: (function(valid) {
+      if (--count <= 0) {
+        t.equal(valid, field.valid, 'should call validCallback');
+        t.end();
+      }
+    })
+  });
+  form.render();
+  field.setValid(true);
+})
+
+test('clean', function(t) {
+  t.end();
+})
+

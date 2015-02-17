@@ -5,8 +5,6 @@ var AmpersandInputView = require('ampersand-input-view');
 var AmpersandFormView = require('../ampersand-form-view');
 
 
-// Patch PhantomJS.
-if (!Function.prototype.bind) Function.prototype.bind = require('function-bind');
 
 var Model = AmpersandModel.extend({
 	props: {
