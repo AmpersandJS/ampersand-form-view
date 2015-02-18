@@ -51,7 +51,22 @@ test('submitCallback', function(t) {
 })
 
 test('beforeSubmit', function(t) {
-  t.end();
+  var field = new FakeField({
+    name: 'field',
+    beforeSubmit: function() {
+      t.equal(this, field, 'should call beforeSubmit on the field');
+      this.value = 42;
+    }
+  })
+  var form = new FormView({
+    fields: [ field ],
+    submitCallback: function(data) {
+      t.equal(data.field, 42, 'should call submitCallback after beforeSubmit on the fields');
+      t.end();
+    }
+  })
+  form.render();
+  form.handleSubmit(document.createEvent('Event'))
 })
 
 test('validCallback', function(t) {
@@ -73,4 +88,3 @@ test('validCallback', function(t) {
 test('clean', function(t) {
   t.end();
 })
-
