@@ -2,7 +2,7 @@ var test = require('tape');
 var FormView = require('../ampersand-form-view');
 
 function FakeField(opts) {
-  opts = opts || {}
+  opts = opts || {};
 
   this.valid = opts.valid === false ? false : true;
   this.name = opts.name || 'fake-field';
@@ -29,14 +29,14 @@ FakeField.prototype = {
 
   render: function() {
     if (!this.el) {
-      this.el = document.createElement('div')
+      this.el = document.createElement('div');
     }
     return this;
   },
 
   remove: function() {
   }
-}
+};
 
 test('submitCallback', function(t) {
   var form = new FormView({
@@ -48,7 +48,7 @@ test('submitCallback', function(t) {
   form.render();
 
   form.handleSubmit(document.createEvent('Event'));
-})
+});
 
 test('beforeSubmit', function(t) {
   var field = new FakeField({
@@ -57,17 +57,17 @@ test('beforeSubmit', function(t) {
       t.equal(this, field, 'should call beforeSubmit on the field');
       this.value = 42;
     }
-  })
+  });
   var form = new FormView({
     fields: [ field ],
     submitCallback: function(data) {
       t.equal(data.field, 42, 'should call submitCallback after beforeSubmit on the fields');
       t.end();
     }
-  })
+  });
   form.render();
-  form.handleSubmit(document.createEvent('Event'))
-})
+  form.handleSubmit(document.createEvent('Event'));
+});
 
 test('validCallback', function(t) {
   var field = new FakeField({valid: false});
@@ -83,24 +83,24 @@ test('validCallback', function(t) {
   });
   form.render();
   field.setValid(true);
-})
+});
 
 test('autoappend', function(t) {
   t.end();
-})
+});
 
 test('clean', function(t) {
-  var field = new FakeField({ name: 'some_field', value: '27' })
+  var field = new FakeField({ name: 'some_field', value: '27' });
   var form = new FormView({
     fields: [ field ],
     clean: function(data) {
-      t.equal(data.some_field, field.value, 'data should have the raw value from the field')
+      t.equal(data.some_field, field.value, 'data should have the raw value from the field');
       data.some_field = Number(data.some_field);
       return data;
     },
-  })
-  var data = form.getData()
+  });
+  var data = form.getData();
   t.equal(data.some_field, Number(field.value), 'getData should return cleaned data');
   t.plan(2);
   t.end();
-})
+});
