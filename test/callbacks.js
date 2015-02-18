@@ -76,7 +76,7 @@ test('validCallback', function(t) {
     fields: [ field ],
     validCallback: (function(valid) {
       if (--count <= 0) {
-        t.equal(valid, field.valid, 'should call validCallback');
+        t.equal(valid, field.valid, 'should call validCallback twice');
         t.end();
       }
     })
@@ -85,6 +85,22 @@ test('validCallback', function(t) {
   field.setValid(true);
 })
 
+test('autoappend', function(t) {
+  t.end();
+})
+
 test('clean', function(t) {
+  var field = new FakeField({ name: 'some_field', value: '27' })
+  var form = new FormView({
+    fields: [ field ],
+    clean: function(data) {
+      t.equal(data.some_field, field.value, 'data should have the raw value from the field')
+      data.some_field = Number(data.some_field);
+      return data;
+    },
+  })
+  var data = form.getData()
+  t.equal(data.some_field, Number(field.value), 'getData should return cleaned data');
+  t.plan(2);
   t.end();
 })
