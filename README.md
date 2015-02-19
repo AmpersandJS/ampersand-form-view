@@ -106,10 +106,26 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
 * `clean` : function
     * Let's you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
 
+=======
+## API Reference
+
+### reset `formView.reset()`
+
+Calls reset on all fields in the form that have the method. Intended to be used to set form back to original state.
+
+### clear `formView.clear()`
+
+Calls clear on all fields in the form that have the method. Intended to be used to clear out the contents of the form.
+
+## Changelog
+
+- 2.2.3 - Adding `reset`. Starting in on building API reference.
 
 ## credits
 
 Created by [@HenrikJoreteg](http://twitter.com/henrikjoreteg)
+
+
 
 ## license
 

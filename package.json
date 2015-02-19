@@ -12,9 +12,22 @@
     "url": "https://github.com/ampersandjs/ampersand-form-view/issues"
   },
   "dependencies": {
+    "amp-extend": "^1.0.0",
+    "amp-is-function": "^1.0.0",
+    "amp-result": "^1.0.0",
     "ampersand-version": "^1.0.0",
-    "backbone-events-standalone": "0.2.2",
-    "extend-object": "^1.0.0"
+    "backbone-events-standalone": "0.2.2"
+  },
+  "devDependencies": {
+    "ampersand-input-view": "^3.1.0",
+    "ampersand-model": "^4.0.3",
+    "ampersand-view": "^7.2.0",
+    "browserify": "^7.0.0",
+    "function-bind": "^1.0.2",
+    "run-browser": "^2.0.2",
+    "tap-spec": "^2.1.1",
+    "tape": "^3.0.3",
+    "tape-run": "^0.3.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-form-view",
   "keywords": [
@@ -27,5 +40,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/ampersandjs/ampersand-form-view"
+  },
+  "scripts": {
+    "start": "run-browser test/index.js",
+    "test": "browserify test/index.js | tape-run | tap-spec"
   }
 }
