@@ -4,8 +4,6 @@ var AmpersandView = require('ampersand-view');
 var AmpersandInputView = require('ampersand-input-view');
 var AmpersandFormView = require('../ampersand-form-view');
 
-
-
 var Model = AmpersandModel.extend({
 	props: {
 		text: 'string',

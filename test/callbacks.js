@@ -104,3 +104,24 @@ test('clean', function(t) {
   t.plan(2);
   t.end();
 });
+
+test('clean', function(t) {
+	var field = new FakeField({
+		name: 'some_field',
+		value: '27'
+	});
+	var FormViewExtendedWithClean = FormView.extend({
+		clean: function(data) {
+			t.equal(data.some_field, field.value, 'data should have the raw value from the field');
+			data.some_field = Number(data.some_field);
+			return data;
+		}
+	});
+	var form = new FormViewExtendedWithClean({
+		fields: [ field ]
+	});
+	var data = form.getData();
+	t.equal(data.some_field, Number(field.value), 'getData should return cleaned data');
+	t.end();
+});
+
