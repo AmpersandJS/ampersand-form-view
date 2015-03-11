@@ -11,11 +11,11 @@ function FormView(opts) {
     this.el = opts.el;
     this.validCallback = opts.validCallback || this.validCallback || function () {};
     this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
+    this.clean = opts.clean || this.clean || function (res) { return res; };
 
     if (opts.data) this.data = opts.data;
     if (opts.model) this.model = opts.model;
 
-    this.clean = opts.clean || function (res) { return res; };
     this.valid = false;
     this.preventDefault = opts.preventDefault === false ? false : true;
     this.autoAppend = opts.autoAppend === false ? false : true;
@@ -42,6 +42,7 @@ extend(FormView.prototype, BBEvents, {
     data: null,
     model: null,
     fields: null,
+    clean: null,
 
     addField: function (fieldView) {
         this._fieldViews[fieldView.name] = fieldView;
