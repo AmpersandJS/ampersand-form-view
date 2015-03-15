@@ -7,6 +7,7 @@ var result = require('amp-result');
 
 function FormView(opts) {
     opts = opts || {};
+    opts.autoRender = opts.autoRender !== undefined ? opts.autoRender : true;
 
     this.el = opts.el;
     this.validCallback = opts.validCallback || this.validCallback || function () {};
@@ -24,17 +25,12 @@ function FormView(opts) {
     this._fieldViews = {};
     this._fieldViewsArray = [];
 
-    // add all our fields
-    this.render();
-
-    (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
-
     if (this.initialize) this.initialize.apply(this, arguments);
 
-    //defer till after returning from initialize
-    setTimeout(function () {
-        this.checkValid(true);
-    }.bind(this), 0);
+    // add all our fields
+    (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
+
+    if (opts.autoRender) this.render();
 }
 
 
@@ -47,11 +43,8 @@ extend(FormView.prototype, BBEvents, {
     addField: function (fieldView) {
         this._fieldViews[fieldView.name] = fieldView;
         this._fieldViewsArray.push(fieldView);
-        if (this.fieldContainerEl) {
-            fieldView.parent = this;
-            fieldView.render();
-            this.fieldContainerEl.appendChild(fieldView.el);
-        }
+        if (this.rendered) { this.renderField(fieldView); }
+        return this;
     },
 
     removeField: function (name) {
@@ -149,15 +142,26 @@ extend(FormView.prototype, BBEvents, {
 
     render: function () {
         if (this.rendered) return;
+        if (this.template) this.renderWithTemplate();
         if (!this.el) {
             this.el = document.createElement('form');
         }
         if (this.autoAppend) {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
+        this._fieldViewsArray.forEach(function(fV) { this.renderField(fV, true); }, this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
+        this.checkValid(true);
         this.rendered = true;
+    },
+
+    renderField: function(fieldView, renderInProgress) {
+        if (fieldView.rendered || !this.fieldContainerEl) { return this; }
+        if (!this.rendered && !renderInProgress) { return this; }
+        fieldView.parent = this;
+        fieldView.render();
+        this.fieldContainerEl.appendChild(fieldView.el);
     }
 });
 
