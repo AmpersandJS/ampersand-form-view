@@ -142,21 +142,20 @@ extend(FormView.prototype, BBEvents, {
 
     render: function () {
         if (this.rendered) return;
-        if (this.template) this.renderWithTemplate();
         if (!this.el) {
             this.el = document.createElement('form');
         }
         if (this.autoAppend) {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
-        this._fieldViewsArray.forEach(function(fV) { this.renderField(fV, true); }, this);
+        this._fieldViewsArray.forEach(function (fV) { this.renderField(fV, true); }, this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
         this.checkValid(true);
         this.rendered = true;
     },
 
-    renderField: function(fieldView, renderInProgress) {
+    renderField: function (fieldView, renderInProgress) {
         if (fieldView.rendered || !this.fieldContainerEl) { return this; }
         if (!this.rendered && !renderInProgress) { return this; }
         fieldView.parent = this;
