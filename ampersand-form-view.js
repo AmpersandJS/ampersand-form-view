@@ -7,8 +7,6 @@ var result = require('amp-result');
 
 function FormView(opts) {
     opts = opts || {};
-    opts.autoRender = opts.autoRender !== undefined ? opts.autoRender : true;
-
     this.el = opts.el;
     this.validCallback = opts.validCallback || this.validCallback || function () {};
     this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
@@ -20,6 +18,7 @@ function FormView(opts) {
     this.valid = false;
     this.preventDefault = opts.preventDefault === false ? false : true;
     this.autoAppend = opts.autoAppend === false ? false : true;
+    opts.autoRender = opts.autoRender === false ? false : true;
 
     // storage for our fields
     this._fieldViews = {};
