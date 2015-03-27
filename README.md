@@ -1,5 +1,9 @@
 # ampersand-form-view
 
+Lead Maintainer: [Michael Garvin](https://github.com/wraithgar)
+
+# overview
+
 ampersand-form-view is a wrapper view for easily building complex forms on the clientside with awesome clientside validation and UX.
 
 It would work quite well with backbone apps or anything else really, it has no external dependencies.
