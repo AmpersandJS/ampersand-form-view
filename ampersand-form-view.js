@@ -1,5 +1,5 @@
 /*$AMPERSAND_VERSION*/
-var BBEvents = require('backbone-events-standalone');
+var Events = require('ampersand-events');
 var isFunction = require('amp-is-function');
 var extend = require('amp-extend');
 var result = require('amp-result');
@@ -38,7 +38,7 @@ function FormView(opts) {
 }
 
 
-extend(FormView.prototype, BBEvents, {
+extend(FormView.prototype, Events, {
     data: null,
     model: null,
     fields: null,
