@@ -1,7 +1,7 @@
 {
   "name": "ampersand-form-view",
   "description": "Completely customizable form lib for bulletproof clientside forms.",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "author": "Henrik Joreteg <henrik@andyet.net>",
   "browserify": {
     "transform": [
@@ -47,6 +47,7 @@
   "scripts": {
     "lint": "jshint .",
     "start": "run-browser test/index.js",
-    "test": "browserify test/index.js | tape-run | tap-spec"
+    "test": "browserify test/index.js | tape-run | tap-spec",
+    "debug": "browserify test/index.js -o debug.js"
   }
 }

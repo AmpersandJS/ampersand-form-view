@@ -11,7 +11,10 @@ var Model = AmpersandModel.extend({
     }
 });
 
-var getView = function () {
+var getView = function (opts) {
+    var formOpts;
+    opts = opts || {};
+    formOpts = opts.form || {};
     var FormView = AmpersandFormView.extend({
         fields: function () {
             return [
@@ -34,14 +37,14 @@ var getView = function () {
     var View = AmpersandView.extend({
         template: '<form data-hook="test-form"></form>',
         render: function () {
-          this.renderWithTemplate();
-          this.form = new FormView({
-            el: this.queryByHook('test-form'),
-            model: this.model
-          });
-          this.registerSubview(this.form);
-
-          return this;
+            this.renderWithTemplate();
+            this.form = new FormView({
+                autoRender: formOpts.autoRender,
+                el: this.queryByHook('test-form'),
+                model: this.model
+            });
+            this.registerSubview(this.form);
+            return this;
         }
     });
 
@@ -79,5 +82,13 @@ test('clear', function (t) {
         t.equal(input.value, '', input.name + ' field value should be empty');
     });
 
+    t.end();
+});
+
+test('autoRender', function (t) {
+    var view = getView({ form: { autoRender: false } });
+    var form = view.form;
+    t.ok(!form.rendered, 'form did not autoRender');
+    t.ok(!form._fieldViewsArray[0].rendered, 'form field did not autoRender');
     t.end();
 });

@@ -14,7 +14,7 @@ That form can be given an array of field views.
 
 These fields are also <a href="http://ampersandjs.com/learn/view-conventions">views</a> but just follow a few more conventions in order to be able to work with a our form view.
 
-Those rules are as follows: 
+Those rules are as follows:
 
 - It maintains a `value` property that is the current value of the field.
 - It should also store a `value` property if passed in as part of the config/options object when the view is created.
@@ -36,7 +36,7 @@ npm install ampersand-form-view
 Here's how you might draw a form view as a subview.
 
 ```javascript
-// we'll just use an ampersand-view here as an 
+// we'll just use an ampersand-view here as an
 // example parent view
 var View = require('ampersand-view');
 var FormView = require('ampersand-form-view');
@@ -67,7 +67,7 @@ var AwesomeFormView = View.extend({
             // the rules described above. I'm using an input-view
             // here, but again, *this could be anything* you would
             // pass it whatever config items needed to instantiate
-            // the field view you made. 
+            // the field view you made.
             fields: [
                 new InputView({
                     name: 'client_name',
@@ -98,9 +98,10 @@ awesomeFormView.render();
 
 ## FormView Options `FormView.extend(options)`
 Standard <a href="http://ampersandjs.com/learn/view-conventions">view conventions</a> apply, with the following options added:
-
+* `autoRender` : boolean (default: true)
+    * Render the form immediately on construction.
 * `autoAppend` : boolean (default: true)
-    * Adds new nodes for all fields defined in the `fields` array.  Use `autoAppend: false` in conjuction with `el: yourElement` in order to use your own form layout
+    * Adds new nodes for all fields defined in the `fields` array.  Use `autoAppend: false` in conjuction with `el: yourElement` in order to use your own form layout.
 * `fields` : array
     * Array of `FieldView`s.  If `autoAppend` is true, nodes defined by the view are built and appended to the end of the FormView.
 * `submitCallback` : function
@@ -123,6 +124,7 @@ Calls clear on all fields in the form that have the method. Intended to be used 
 
 ## Changelog
 
+- 3.0.0 - Initialize prior to render, and permit `autoRender: false`
 - 2.2.3 - Adding `reset`. Starting in on building API reference.
 
 ## credits
