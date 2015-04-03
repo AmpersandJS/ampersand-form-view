@@ -1,8 +1,8 @@
 /*$AMPERSAND_VERSION*/
 var Events = require('ampersand-events');
-var isFunction = require('amp-is-function');
-var extend = require('amp-extend');
-var result = require('amp-result');
+var isFunction = require('lodash.isfunction');
+var assign = require('lodash.assign');
+var result = require('lodash.result');
 
 
 function FormView(opts) {
@@ -33,7 +33,7 @@ function FormView(opts) {
 }
 
 
-extend(FormView.prototype, Events, {
+assign(FormView.prototype, Events, {
     data: null,
     model: null,
     fields: null,
@@ -168,8 +168,8 @@ FormView.extend = function (obj) {
        FormView.apply(this, arguments);
     };
 
-    extend(child.prototype, FormView.prototype);
-    extend(child.prototype, obj);
+    assign(child.prototype, FormView.prototype);
+    assign(child.prototype, obj);
 
     return child;
 };
