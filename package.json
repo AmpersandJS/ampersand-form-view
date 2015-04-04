@@ -4,7 +4,7 @@
   "version": "3.1.0",
   "author": "Henrik Joreteg <henrik@andyet.net>",
   "files": [
-      "ampersand-form-view.js"
+    "ampersand-form-view.js"
   ],
   "browserify": {
     "transform": [
@@ -15,6 +15,7 @@
     "url": "https://github.com/ampersandjs/ampersand-form-view/issues"
   },
   "dependencies": {
+    "ampersand-class-extend": "^1.0.2",
     "ampersand-events": "^1.1.1",
     "ampersand-version": "^1.0.0",
     "lodash.assign": "^3.0.0",
