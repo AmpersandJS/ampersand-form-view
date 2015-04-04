@@ -3,6 +3,7 @@ var Events = require('ampersand-events');
 var isFunction = require('amp-is-function');
 var extend = require('amp-extend');
 var result = require('amp-result');
+var classExtend = require('ampersand-class-extend');
 
 
 function FormView(opts) {
@@ -163,15 +164,6 @@ extend(FormView.prototype, Events, {
     }
 });
 
-FormView.extend = function (obj) {
-    var child = function () {
-       FormView.apply(this, arguments);
-    };
-
-    extend(child.prototype, FormView.prototype);
-    extend(child.prototype, obj);
-
-    return child;
-};
+FormView.extend = classExtend;
 
 module.exports = FormView;

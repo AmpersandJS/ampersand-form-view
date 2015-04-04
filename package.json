@@ -15,6 +15,7 @@
     "amp-extend": "^1.0.0",
     "amp-is-function": "^1.0.0",
     "amp-result": "^1.0.0",
+    "ampersand-class-extend": "^1.0.2",
     "ampersand-events": "^1.1.1",
     "ampersand-version": "^1.0.0"
   },
