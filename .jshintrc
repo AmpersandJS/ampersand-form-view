@@ -1,4 +1,5 @@
 {
+  "browser": true,
   "latedef": true,
   "quotmark": true,
   "undef": true,
@@ -8,6 +9,7 @@
     "require",
     "setTimeout",
     "document",
-    "module"
+    "module",
+    "console"
   ]
 }

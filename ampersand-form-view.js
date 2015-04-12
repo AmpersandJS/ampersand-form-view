@@ -1,44 +1,62 @@
 /*$AMPERSAND_VERSION*/
-var Events = require('ampersand-events');
+var View = require('ampersand-view');
 var isFunction = require('lodash.isfunction');
-var assign = require('lodash.assign');
 var result = require('lodash.result');
-var classExtend = require('ampersand-class-extend');
+var noop = function(){};
 
+module.exports = View.extend({
+    props: {
+        'model': 'state',
+        'rendered': {
+            type: 'boolean',
+            required: true,
+            default: false
+        }
+    },
+    derived: {
+        data: {
+            fn: function () {
+                var res = {};
+                for (var key in this._fieldViews) {
+                    if (this._fieldViews.hasOwnProperty(key)) {
+                        res[key] = this._fieldViews[key].value;
+                    }
+                }
+                return this.clean(res);
+            }
+        },
+        cache: false
+    },
+    initialize: function(opts) {
+        opts = opts || {};
+        this.el = opts.el;
+        this.validCallback = opts.validCallback || this.validCallback || noop;
+        this.submitCallback = opts.submitCallback || this.submitCallback || noop;
+        this.clean = opts.clean || this.clean || function (res) { return res; };
 
-function FormView(opts) {
-    opts = opts || {};
-    this.el = opts.el;
-    this.validCallback = opts.validCallback || this.validCallback || function () {};
-    this.submitCallback = opts.submitCallback || this.submitCallback || function () {};
-    this.clean = opts.clean || this.clean || function (res) { return res; };
+        if (opts.model) this.model = opts.model;
 
-    if (opts.data) this.data = opts.data;
-    if (opts.model) this.model = opts.model;
+        this.valid = false;
+        this.preventDefault = opts.preventDefault === false ? false : true;
+        this.autoAppend = opts.autoAppend === false ? false : true;
 
-    this.valid = false;
-    this.preventDefault = opts.preventDefault === false ? false : true;
-    this.autoAppend = opts.autoAppend === false ? false : true;
-    opts.autoRender = opts.autoRender === false ? false : true;
+        // storage for our fields
+        this._fieldViews = {};
+        this._fieldViewsArray = [];
 
-    // storage for our fields
-    this._fieldViews = {};
-    this._fieldViewsArray = [];
+        // add all our fields
+        (result(opts, 'fields') || result(this, 'fields') || []).forEach(this.addField.bind(this));
 
-    if (this.initialize) this.initialize.apply(this, arguments);
+        if (opts.autoRender) {
+            this.autoRender = opts.autoRender;
+            // &-view requires this.template && this.autoRender to be truthy in
+            // order to autoRender. template doesn't apply to &-form-view, but
+            // we manually flip the bit to honor autoRender
+            this.template = opts.template || this.template || true;
+        }
 
-    // add all our fields
-    (opts.fields || result(this, 'fields') || []).forEach(this.addField.bind(this));
-
-    if (opts.autoRender) this.render();
-}
-
-
-assign(FormView.prototype, Events, {
-    data: null,
-    model: null,
-    fields: null,
-    clean: null,
+        if (opts.values) this._startingValues = opts.values;
+    },
 
     addField: function (fieldView) {
         this._fieldViews[fieldView.name] = fieldView;
@@ -47,8 +65,11 @@ assign(FormView.prototype, Events, {
         return this;
     },
 
-    removeField: function (name) {
+    removeField: function (name, strict) {
         var field = this.getField(name);
+        if (strict && !field) {
+            throw new ReferenceError('field name  "' + name + '" not found');
+        }
         if (field) {
             field.remove();
             delete this._fieldViews[name];
@@ -65,6 +86,19 @@ assign(FormView.prototype, Events, {
         this.valid = now;
         if (prev !== now || forceFire) {
             this.validCallback(now);
+        }
+    },
+
+    setValues: function (data) {
+        var value, field;
+        for (var name in data) {
+            if (data.hasOwnProperty(name)) {
+                field = this.getField(name);
+                if (field && field.setValue) {
+                    value = data[name];
+                    field.setValue(value);
+                }
+            }
         }
     },
 
@@ -94,11 +128,10 @@ assign(FormView.prototype, Events, {
 
     remove: function () {
         this.el.removeEventListener('submit', this.handleSubmit, false);
-        var parent = this.el.parentNode;
-        if (parent) parent.removeChild(this.el);
         this._fieldViewsArray.forEach(function (field) {
             field.remove();
         });
+        return View.prototype.remove.call(this);
     },
 
     handleSubmit: function (e) {
@@ -111,17 +144,9 @@ assign(FormView.prototype, Events, {
 
         if (this.preventDefault) {
             e.preventDefault();
-            this.submitCallback(this.getData());
+            this.submitCallback(this.data);
             return false;
         }
-    },
-
-    getData: function () {
-        var res = {};
-        for (var key in this._fieldViews) {
-            res[key] = this._fieldViews[key].value;
-        }
-        return this.clean(res);
     },
 
     reset: function () {
@@ -149,6 +174,14 @@ assign(FormView.prototype, Events, {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
         this._fieldViewsArray.forEach(function (fV) { this.renderField(fV, true); }, this);
+        if (this._startingValues) {
+            // setValues is ideally executed at initialize, with no persistent
+            // memory consumption inside ampersand-form-view, however, some
+            // fieldViews don't permit `setValue(...)` unless the field view
+            // itself is rendered
+            this.setValues(this._startingValues);
+            delete this._startingValues;
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
         this.checkValid(true);
@@ -161,9 +194,22 @@ assign(FormView.prototype, Events, {
         fieldView.parent = this;
         fieldView.render();
         this.fieldContainerEl.appendChild(fieldView.el);
+    },
+
+    getValue: function(name) {
+        var field = this.getField(name, true);
+        return field.value;
+    },
+
+    setValue: function(name, value) {
+        var field = this.getField(name, true);
+        field.setValue(value);
+        return this;
+    },
+
+    // deprecated
+    getData: function() {
+        return this.data;
     }
+
 });
-
-FormView.extend = classExtend;
-
-module.exports = FormView;
