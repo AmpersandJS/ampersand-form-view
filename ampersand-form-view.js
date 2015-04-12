@@ -66,10 +66,7 @@ module.exports = View.extend({
     },
 
     removeField: function (name, strict) {
-        var field = this.getField(name);
-        if (strict && !field) {
-            throw new ReferenceError('field name  "' + name + '" not found');
-        }
+        var field = this.getField(name, strict);
         if (field) {
             field.remove();
             delete this._fieldViews[name];
@@ -77,8 +74,12 @@ module.exports = View.extend({
         }
     },
 
-    getField: function (name) {
-        return this._fieldViews[name];
+    getField: function (name, strict) {
+        var field = this._fieldViews[name];
+        if (!field && strict) {
+            throw new ReferenceError('field name  "' + name + '" not found');
+        }
+        return field;
     },
 
     setValid: function (now, forceFire) {
@@ -90,14 +91,9 @@ module.exports = View.extend({
     },
 
     setValues: function (data) {
-        var value, field;
         for (var name in data) {
             if (data.hasOwnProperty(name)) {
-                field = this.getField(name);
-                if (field && field.setValue) {
-                    value = data[name];
-                    field.setValue(value);
-                }
+                this.setValue(name, data[name]);
             }
         }
     },
@@ -209,6 +205,7 @@ module.exports = View.extend({
 
     // deprecated
     getData: function() {
+        console.warn('deprecation warning: ampersand-form-view `.getData()` replaced by `.data`');
         return this.data;
     }
 
