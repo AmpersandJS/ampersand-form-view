@@ -181,7 +181,6 @@ module.exports = View.extend({
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
         this.checkValid(true);
-        this.rendered = true;
     },
 
     renderField: function (fieldView, renderInProgress) {
