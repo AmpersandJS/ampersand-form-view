@@ -5,14 +5,6 @@ var result = require('lodash.result');
 var noop = function(){};
 
 module.exports = View.extend({
-    props: {
-        'model': 'state',
-        'rendered': {
-            type: 'boolean',
-            required: true,
-            default: false
-        }
-    },
     derived: {
         data: {
             fn: function () {
