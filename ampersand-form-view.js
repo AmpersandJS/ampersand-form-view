@@ -181,7 +181,6 @@ module.exports = View.extend({
 
     renderField: function (fieldView, renderInProgress) {
         if (!this.rendered && !renderInProgress) return this;
-        if (fieldView.rendered) return this;
         fieldView.parent = this;
         fieldView.render();
         if (this.autoAppend) this.fieldContainerEl.appendChild(fieldView.el);
