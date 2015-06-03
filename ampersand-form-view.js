@@ -5,6 +5,7 @@ var result = require('lodash.result');
 var noop = function(){};
 
 module.exports = View.extend({
+
     derived: {
         data: {
             fn: function () {
@@ -19,6 +20,7 @@ module.exports = View.extend({
         },
         cache: false
     },
+
     initialize: function(opts) {
         opts = opts || {};
         this.el = opts.el;
@@ -53,7 +55,6 @@ module.exports = View.extend({
     addField: function (fieldView) {
         this._fieldViews[fieldView.name] = fieldView;
         this._fieldViewsArray.push(fieldView);
-        if (this.rendered) { this.renderField(fieldView); }
         return this;
     },
 
@@ -161,12 +162,15 @@ module.exports = View.extend({
         if (this.autoAppend) {
             this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
-        this._fieldViewsArray.forEach(function (fV) { this.renderField(fV, true); }, this);
+        this._fieldViewsArray.forEach(function renderEachField(fV) {
+            this.renderField(fV, true);
+        }.bind(this));
         if (this._startingValues) {
             // setValues is ideally executed at initialize, with no persistent
             // memory consumption inside ampersand-form-view, however, some
             // fieldViews don't permit `setValue(...)` unless the field view
-            // itself is rendered
+            // itself is rendered.  thus, cache init values into _startingValues
+            // and update all values after each field is rendered
             this.setValues(this._startingValues);
             delete this._startingValues;
         }
@@ -176,11 +180,11 @@ module.exports = View.extend({
     },
 
     renderField: function (fieldView, renderInProgress) {
-        if (fieldView.rendered || !this.fieldContainerEl) { return this; }
-        if (!this.rendered && !renderInProgress) { return this; }
+        if (!this.rendered && !renderInProgress) return this;
+        if (fieldView.rendered) return this;
         fieldView.parent = this;
         fieldView.render();
-        this.fieldContainerEl.appendChild(fieldView.el);
+        if (this.autoAppend) this.fieldContainerEl.appendChild(fieldView.el);
     },
 
     getValue: function(name) {
