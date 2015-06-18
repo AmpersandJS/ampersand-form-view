@@ -16,9 +16,9 @@ module.exports = View.extend({
                     }
                 }
                 return this.clean(res);
-            }
-        },
-        cache: false
+            },
+            cache: false
+        }
     },
 
     initialize: function(opts) {

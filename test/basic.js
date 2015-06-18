@@ -153,11 +153,3 @@ test('field value setter/getter', function(t) {
     t.equal(view.form.getValue('textarea'), 'newValue', 'setValue() sets value on provided field');
     t.end();
 });
-
-test('deprecated', function(t) {
-    var view = getView({ form: { autoRender: true }});
-    var data = view.form.getData();
-    t.equal(data, view.form.data, '(deprecated) .getData proxies .data');
-    t.end();
-});
-
