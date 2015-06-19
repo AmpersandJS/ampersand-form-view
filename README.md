@@ -47,6 +47,7 @@ var AwesomeFormView = View.extend({
     render: function () {
         this.renderWithTemplate();
         this.form = new FormView({
+            autoRender: true,
             el: this.queryByHook('app-edit-form'),
             submitCallback: function (obj) {
                 console.log('form submitted! Your data:', obj);
@@ -82,7 +83,15 @@ var AwesomeFormView = View.extend({
                         }
                     ]
                 })
-            ]
+            ],
+            // optional initial form values specified by
+            // {"field-name": "value"} pairs. Overwrites default
+            // `value`s provided in your FieldView constructors, only
+            // after the form is rendered. You can set form values
+            // in bulk after the form is rendered using setValues().
+            values: {
+                client_name: 'overrides "hello" from above'
+            }
         });
 
         // registering the form view as a subview ensures that
@@ -114,6 +123,43 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
 =======
 ## API Reference
 
+### setValue `formView.setValue(name, value)`
+
+Sets the provided value on the field matching the provided name.  Throws when invalid field name specified.
+
+
+### getValue `formView.setValue(name)`
+
+Gets the value from the associated field matching the provided name.  Throws when invalid field name specified.
+
+### setValues `formView.setValues([values])`
+
+For each key corresponding to a field's `name` found in `values`, the corresponding `value` will be set onto the FieldView.  Executes when the the formView is **rendered**.
+
+```js
+myForm = new FormView({
+    fields: function() {
+        return [
+            new CheckboxView({
+                name: 'startsTrue',
+                value: true
+            }),
+            new CheckboxView({
+                name: 'startsFalse',
+                value: false
+            }),
+        ];
+    }
+});
+myForm.render();
+
+// bulk update form values
+myForm.setValues({
+    startsTrue: true,  //=> no change
+    startsFalse: true  //=> becomes true
+});
+```
+
 ### reset `formView.reset()`
 
 Calls reset on all fields in the form that have the method. Intended to be used to set form back to original state.
@@ -124,6 +170,7 @@ Calls clear on all fields in the form that have the method. Intended to be used 
 
 ## Changelog
 
+- 4.0.0 - Extend `ampersand-view` to add state, adds `setValues()`, `setValue()`, & `getValue()`.  Change to not render() during construction by default.
 - 3.0.0 - Initialize prior to render, and permit `autoRender: false`
 - 2.2.3 - Adding `reset`. Starting in on building API reference.
 
