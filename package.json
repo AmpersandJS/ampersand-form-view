@@ -21,18 +21,18 @@
     "lodash.result": "^3.0.0"
   },
   "devDependencies": {
-    "ampersand-input-view": "^3.1.0",
+    "ampersand-input-view": "^4.0.5",
     "ampersand-checkbox-view": "*",
-    "ampersand-model": "^4.0.3",
-    "browserify": "^7.0.0",
+    "ampersand-model": "^5.0.3",
+    "browserify": "^10.2.4",
     "function-bind": "^1.0.2",
     "jshint": "^2.6.0",
     "phantomjs": "^1.9.15",
-    "precommit-hook": "^1.0.7",
+    "precommit-hook": "^3.0.0",
     "run-browser": "^2.0.2",
-    "tap-spec": "^2.1.1",
-    "tape": "^3.0.3",
-    "tape-run": "^0.3.0"
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.0",
+    "tape-run": "^1.0.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-form-view",
   "keywords": [
@@ -54,6 +54,12 @@
     "preversion": "git checkout master && git pull && npm ls",
     "publish-patch": "npm run preversion && npm version patch && git push origin master --tags && npm publish",
     "publish-minor": "npm run preversion && npm version minor && git push origin master --tags && npm publish",
-    "publish-major": "npm run preversion && npm version major && git push origin master --tags && npm publish"
-  }
+    "publish-major": "npm run preversion && npm version major && git push origin master --tags && npm publish",
+    "validate": "npm ls"
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
 }
