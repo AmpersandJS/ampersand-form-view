@@ -2,7 +2,6 @@
 var View = require('ampersand-view');
 var isFunction = require('lodash.isfunction');
 var result = require('lodash.result');
-var noop = function(){};
 
 module.exports = View.extend({
 
@@ -24,8 +23,8 @@ module.exports = View.extend({
     initialize: function(opts) {
         opts = opts || {};
         this.el = opts.el;
-        this.validCallback = opts.validCallback || this.validCallback || noop;
-        this.submitCallback = opts.submitCallback || this.submitCallback || noop;
+        this.validCallback = opts.validCallback || this.validCallback || null;
+        this.submitCallback = opts.submitCallback || this.submitCallback || null;
         this.clean = opts.clean || this.clean || function (res) { return res; };
 
         if (opts.model) this.model = opts.model;
@@ -50,6 +49,10 @@ module.exports = View.extend({
         }
 
         if (opts.values) this._startingValues = opts.values;
+
+        if (this.validCallback) this.on('valid', this.validCallback);
+
+        if (this.submitCallback) this.on('submit', this.submitCallback);
     },
 
     addField: function (fieldView) {
@@ -79,7 +82,7 @@ module.exports = View.extend({
         var prev = this.valid;
         this.valid = now;
         if (prev !== now || forceFire) {
-            this.validCallback(now);
+            this.trigger('valid', now);
         }
     },
 
@@ -133,7 +136,7 @@ module.exports = View.extend({
 
         if (this.preventDefault) {
             e.preventDefault();
-            this.submitCallback(this.data);
+            this.trigger('submit', this.data);
             return false;
         }
     },
