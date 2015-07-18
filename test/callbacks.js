@@ -53,7 +53,7 @@ test('on submit', function(t) {
     var form = new FormView();
 
     form.on('submit', function(data) {
-	    t.notEqual(data, undefined, 'should trigger `submit` event with data');
+        t.notEqual(data, undefined, 'should trigger `submit` event with data');
         t.end();
     });
 
@@ -81,15 +81,12 @@ test('beforeSubmit', function(t) {
 });
 
 test('validCallback', function(t) {
+    t.plan(2);
     var field = new FakeField({valid: false});
-    var count = 2;
     var form = new FormView({
         fields: [ field ],
         validCallback: (function(valid) {
-            if (--count <= 0) {
-                t.equal(valid, field.valid, 'should call validCallback twice');
-                t.end();
-            }
+            t.equal(valid, field.valid, 'should call validCallback twice');
         })
     });
     form.render();
@@ -97,17 +94,14 @@ test('validCallback', function(t) {
 });
 
 test('on valid', function(t) {
+    t.plan(2);
     var field = new FakeField({valid: false});
-    var count = 2;
     var form = new FormView({
         fields: [ field ]
     });
 
     form.on('valid', function(validBool) {
-	     if (--count <= 0) {
-            t.equal(validBool, field.valid, 'should trigger `valid` event twice');
-            t.end();
-        }
+        t.equal(validBool, field.valid, 'should trigger `valid` event twice');
     });
 
     form.render();
