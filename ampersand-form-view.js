@@ -4,6 +4,10 @@ var isFunction = require('lodash.isfunction');
 var result = require('lodash.result');
 
 module.exports = View.extend({
+    
+    session: {
+        valid: ['boolean', false, false]
+    },
 
     derived: {
         data: {
@@ -28,8 +32,7 @@ module.exports = View.extend({
         this.clean = opts.clean || this.clean || function (res) { return res; };
 
         if (opts.model) this.model = opts.model;
-
-        this.valid = false;
+        
         this.preventDefault = opts.preventDefault === false ? false : true;
         this.autoAppend = opts.autoAppend === false ? false : true;
 
@@ -49,8 +52,12 @@ module.exports = View.extend({
         }
 
         if (opts.values) this._startingValues = opts.values;
-
-        if (this.validCallback) this.on('valid', this.validCallback);
+        
+        if (this.validCallback) {
+            this.on('change:valid', function(view, validBool) {
+                this.validCallback(validBool);
+            });
+        }
 
         if (this.submitCallback) this.on('submit', this.submitCallback);
     },
@@ -78,14 +85,6 @@ module.exports = View.extend({
         return field;
     },
 
-    setValid: function (now, forceFire) {
-        var prev = this.valid;
-        this.valid = now;
-        if (prev !== now || forceFire) {
-            this.trigger('valid', now);
-        }
-    },
-
     setValues: function (data) {
         for (var name in data) {
             if (data.hasOwnProperty(name)) {
@@ -94,12 +93,11 @@ module.exports = View.extend({
         }
     },
 
-    checkValid: function (forceFire) {
-        var valid = this._fieldViewsArray.every(function (field) {
+    checkValid: function () {
+        this.valid = this._fieldViewsArray.every(function (field) {
             return field.valid;
         });
-        this.setValid(valid, forceFire);
-        return valid;
+        return this.valid;
     },
 
     beforeSubmit: function () {
@@ -114,7 +112,7 @@ module.exports = View.extend({
         if (field.valid) {
             this.checkValid();
         } else {
-            this.setValid(false);
+            this.valid = false;
         }
     },
 
@@ -179,7 +177,8 @@ module.exports = View.extend({
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
-        this.checkValid(true);
+        this.set('valid', null, {silent: true});
+        this.checkValid();
     },
 
     renderField: function (fieldView, renderInProgress) {

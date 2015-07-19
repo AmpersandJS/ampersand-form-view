@@ -93,17 +93,15 @@ test('validCallback', function(t) {
     field.setValid(true);
 });
 
-test('on valid', function(t) {
+test('on change:valid', function(t) {
     t.plan(2);
     var field = new FakeField({valid: false});
     var form = new FormView({
         fields: [ field ]
     });
-
-    form.on('valid', function(validBool) {
+    form.on('change:valid', function(view, validBool) {
         t.equal(validBool, field.valid, 'should trigger `valid` event twice');
     });
-
     form.render();
     field.setValid(true);
 });
