@@ -176,6 +176,8 @@ module.exports = View.extend({
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
+        // force `change:valid` to be triggered when `valid === false` post-render,
+        // despite `valid` not having changed from its default pre-render value of `false`
         this.set('valid', null, {silent: true});
         this.checkValid();
     },
