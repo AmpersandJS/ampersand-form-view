@@ -27,8 +27,8 @@ module.exports = View.extend({
     initialize: function(opts) {
         opts = opts || {};
         this.el = opts.el;
-        this.validCallback = opts.validCallback || this.validCallback || null;
-        this.submitCallback = opts.submitCallback || this.submitCallback || null;
+        this.validCallback = opts.validCallback || this.validCallback;
+        this.submitCallback = opts.submitCallback || this.submitCallback;
         this.clean = opts.clean || this.clean || function (res) { return res; };
 
         if (opts.model) this.model = opts.model;
@@ -94,10 +94,9 @@ module.exports = View.extend({
     },
 
     checkValid: function () {
-        this.valid = this._fieldViewsArray.every(function (field) {
+        return this.valid = this._fieldViewsArray.every(function (field) {
             return field.valid;
         });
-        return this.valid;
     },
 
     beforeSubmit: function () {
