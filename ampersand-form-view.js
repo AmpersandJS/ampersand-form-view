@@ -2,9 +2,12 @@
 var View = require('ampersand-view');
 var isFunction = require('lodash.isfunction');
 var result = require('lodash.result');
-var noop = function(){};
 
 module.exports = View.extend({
+    
+    session: {
+        valid: ['boolean', false, false]
+    },
 
     derived: {
         data: {
@@ -24,13 +27,12 @@ module.exports = View.extend({
     initialize: function(opts) {
         opts = opts || {};
         this.el = opts.el;
-        this.validCallback = opts.validCallback || this.validCallback || noop;
-        this.submitCallback = opts.submitCallback || this.submitCallback || noop;
+        this.validCallback = opts.validCallback || this.validCallback;
+        this.submitCallback = opts.submitCallback || this.submitCallback;
         this.clean = opts.clean || this.clean || function (res) { return res; };
 
         if (opts.model) this.model = opts.model;
-
-        this.valid = false;
+        
         this.preventDefault = opts.preventDefault === false ? false : true;
         this.autoAppend = opts.autoAppend === false ? false : true;
 
@@ -50,6 +52,14 @@ module.exports = View.extend({
         }
 
         if (opts.values) this._startingValues = opts.values;
+        
+        if (this.validCallback) {
+            this.on('change:valid', function(view, validBool) {
+                this.validCallback(validBool);
+            });
+        }
+
+        if (this.submitCallback) this.on('submit', this.submitCallback);
     },
 
     addField: function (fieldView) {
@@ -75,14 +85,6 @@ module.exports = View.extend({
         return field;
     },
 
-    setValid: function (now, forceFire) {
-        var prev = this.valid;
-        this.valid = now;
-        if (prev !== now || forceFire) {
-            this.validCallback(now);
-        }
-    },
-
     setValues: function (data) {
         for (var name in data) {
             if (data.hasOwnProperty(name)) {
@@ -91,12 +93,10 @@ module.exports = View.extend({
         }
     },
 
-    checkValid: function (forceFire) {
-        var valid = this._fieldViewsArray.every(function (field) {
+    checkValid: function () {
+        return this.valid = this._fieldViewsArray.every(function (field) {
             return field.valid;
         });
-        this.setValid(valid, forceFire);
-        return valid;
     },
 
     beforeSubmit: function () {
@@ -111,7 +111,7 @@ module.exports = View.extend({
         if (field.valid) {
             this.checkValid();
         } else {
-            this.setValid(false);
+            this.valid = false;
         }
     },
 
@@ -133,7 +133,7 @@ module.exports = View.extend({
 
         if (this.preventDefault) {
             e.preventDefault();
-            this.submitCallback(this.data);
+            this.trigger('submit', this.data);
             return false;
         }
     },
@@ -176,7 +176,10 @@ module.exports = View.extend({
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.el.addEventListener('submit', this.handleSubmit, false);
-        this.checkValid(true);
+        // force `change:valid` to be triggered when `valid === false` post-render,
+        // despite `valid` not having changed from its default pre-render value of `false`
+        this.set('valid', null, {silent: true});
+        this.checkValid();
     },
 
     renderField: function (fieldView, renderInProgress) {
