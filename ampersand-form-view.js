@@ -4,7 +4,7 @@ var isFunction = require('lodash.isfunction');
 var result = require('lodash.result');
 
 module.exports = View.extend({
-    
+
     session: {
         valid: ['boolean', false, false]
     },
@@ -32,7 +32,7 @@ module.exports = View.extend({
         this.clean = opts.clean || this.clean || function (res) { return res; };
 
         if (opts.model) this.model = opts.model;
-        
+
         this.preventDefault = opts.preventDefault === false ? false : true;
         this.autoAppend = opts.autoAppend === false ? false : true;
 
@@ -52,7 +52,7 @@ module.exports = View.extend({
         }
 
         if (opts.values) this._startingValues = opts.values;
-        
+
         if (this.validCallback) {
             this.on('change:valid', function(view, validBool) {
                 this.validCallback(validBool);

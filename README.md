@@ -168,8 +168,15 @@ Calls reset on all fields in the form that have the method. Intended to be used 
 
 Calls clear on all fields in the form that have the method. Intended to be used to clear out the contents of the form.
 
+## events/properties
+The following are FormView observables, thus emit events:
+
+- `valid` - the valid state of the form
+- `data` - form field view values in `{fieldName: value, fieldName2: value2 }` format
+
 ## Changelog
 
+- 4.1.0 - Add `submit` and `valid` events
 - 4.0.0 - Extend `ampersand-view` to add state, adds `setValues()`, `setValue()`, & `getValue()`.  Change to not render() during construction by default.
 - 3.0.0 - Initialize prior to render, and permit `autoRender: false`
 - 2.2.3 - Adding `reset`. Starting in on building API reference.
