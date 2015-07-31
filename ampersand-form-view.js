@@ -94,9 +94,10 @@ module.exports = View.extend({
     },
 
     checkValid: function () {
-        return this.valid = this._fieldViewsArray.every(function (field) {
+        this.valid = this._fieldViewsArray.every(function (field) {
             return field.valid;
         });
+        return this.valid;
     },
 
     beforeSubmit: function () {

@@ -176,8 +176,9 @@ The following are FormView observables, thus emit events:
 
 ## Changelog
 
-- 4.1.0 - Add `submit` and `valid` events
-- 4.0.0 - Extend `ampersand-view` to add state, adds `setValues()`, `setValue()`, & `getValue()`.  Change to not render() during construction by default.
+- 5.1.0 - Add `submit` and `valid` events
+- 5.0.0 - Extend `ampersand-view` to add state, adds `setValues()`, `setValue()`, & `getValue()`.  Change to not render() during construction by default.
+- 4.0.0 - (skipped)
 - 3.0.0 - Initialize prior to render, and permit `autoRender: false`
 - 2.2.3 - Adding `reset`. Starting in on building API reference.
 
