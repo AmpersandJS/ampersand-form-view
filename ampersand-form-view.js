@@ -41,7 +41,7 @@ module.exports = View.extend({
         this._fieldViewsArray = [];
 
         // add all our fields
-        (result(opts, 'fields') || result(this, 'fields') || []).forEach(this.addField.bind(this));
+        (result(opts, 'fields') || result(this, 'fields') || []).forEach(this.addField, this);
 
         if (opts.autoRender) {
             this.autoRender = opts.autoRender;
@@ -165,7 +165,7 @@ module.exports = View.extend({
         }
         this._fieldViewsArray.forEach(function renderEachField(fV) {
             this.renderField(fV, true);
-        }.bind(this));
+        }, this);
         if (this._startingValues) {
             // setValues is ideally executed at initialize, with no persistent
             // memory consumption inside ampersand-form-view, however, some
