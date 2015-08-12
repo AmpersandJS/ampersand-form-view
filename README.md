@@ -12,7 +12,7 @@ At a high level, the way it works is you define a view object (by making an obje
 
 That form can be given an array of field views.
 
-These fields are also <a href="http://ampersandjs.com/learn/view-conventions">views</a> but just follow a few more conventions in order to be able to work with a our form view.
+These fields are also <a href="http://ampersandjs.com/learn/view-conventions">views</a> but just follow a few more conventions in order to be able to work with our form view.
 
 Those rules are as follows:
 
@@ -20,8 +20,8 @@ Those rules are as follows:
 - It should also store a `value` property if passed in as part of the config/options object when the view is created.
 - It maintains a `valid` property that is a boolean. The parent form checks this to know whether it can submit the form or not.
 - It has a `name` property that is a string of the name of the field.
-- It reports changes to its parent when it deems appropriate by calling `this.parent.update(this)` **note that is passes itsef to the parent. You would typically do this when the `this.value` has changed or the `this.valid` has changed.
-- When rendered by a form-view it the form view creates a `parent` property that is a reference to the containing form view.
+- It reports changes to its parent when it deems appropriate by calling `this.parent.update(this)` **note that it passes itsef to the parent. You would typically do this when the `this.value` has changed or the `this.valid` has changed.
+- When rendered by a form-view, the form view creates a `parent` property that is a reference to the containing form view.
 - It can optionally also define a `beforeSubmit` method. This gets called by the parent if it exists. This can be useful for stuff like a required text input that you don't want to show an error for if empty until the user tries to submit the form.
 
 
@@ -56,7 +56,7 @@ var AwesomeFormView = View.extend({
             // when the form first loads and any time the form
             // changes from valid to invalid or vice versa.
             // You might use this to disable the "submit" button
-            // any time the form is invalid, for exmaple.
+            // any time the form is invalid, for example.
             validCallback: function (valid) {
                 if (valid) {
                     console.log('The form is valid!');
@@ -74,7 +74,7 @@ var AwesomeFormView = View.extend({
                     name: 'client_name',
                     label: 'App Name',
                     placeholder: 'My Awesome App',
-                    // an intial value if it has one
+                    // an initial value if it has one
                     value: 'hello',
                     // this one takes an array of tests
                     tests: [
@@ -95,7 +95,7 @@ var AwesomeFormView = View.extend({
         });
 
         // registering the form view as a subview ensures that
-        // it`s `remove` method will get called when the parent
+        // its `remove` method will get called when the parent
         // view is removed.
         this.registerSubview(this.form);
     }
@@ -116,7 +116,7 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
 * `submitCallback` : function
     * called on form submit
 * `validCallback` : function
-    *  this valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for exmaple.
+    *  this valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for example.
 * `clean` : function
     * Let's you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
 
