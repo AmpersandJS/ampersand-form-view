@@ -172,7 +172,7 @@ Calls clear on all fields in the form that have the method. Intended to be used 
 The following are FormView observables, thus emit events:
 
 - `valid` - the valid state of the form
-- `data` - form field view values in `{fieldName: value, fieldName2: value2 }` format
+- `data` - form field view values in `{ fieldName: value, fieldName2: value2 }` format
 
 ## Changelog
 
