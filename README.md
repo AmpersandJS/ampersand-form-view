@@ -168,11 +168,15 @@ Calls reset on all fields in the form that have the method. Intended to be used 
 
 Calls clear on all fields in the form that have the method. Intended to be used to clear out the contents of the form.
 
-## events/properties
-The following are FormView observables, thus emit events:
+## Properties
+The following are FormView observables, thus emit "change" events:
 
 - `valid` - the valid state of the form
 - `data` - form field view values in `{ fieldName: value, fieldName2: value2 }` format
+
+## Special Events
+
+- `submit` - triggered when a form is submitted. Returns the `data` of the form as the only argument
 
 ## Changelog
 
