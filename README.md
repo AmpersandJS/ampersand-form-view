@@ -174,6 +174,37 @@ The following are FormView observables, thus emit "change" events:
 - `valid` - the valid state of the form
 - `data` - form field view values in `{ fieldName: value, fieldName2: value2 }` format
 
+## Verbose forms
+
+For verbose forms used to edit nested data, you can write field names as paths. Doing so, the `data` observable is nested according to the paths you specified so you can `set` or `save` this data to a state or collection more easily.
+
+### Example
+A form with a persons first and last name and an array of phone numbers, each of which has fields for *type* and *number*:
+
+```javascript
+var form = new FormView({
+  fields: [
+    new InputView({name: 'name.first', value: 'Michael'}),
+    new InputView({name: 'name.last', value: 'Mustermann'}),
+    new InputView({name: 'phone[0].type', value: 'home'}),
+    new InputView({name: 'phone[0].number', value: '1234567'}),
+    new InputView({name: 'phone[1].type', value: 'mobile'}),
+    new InputView({name: 'phone[1].number', value: '7654321'})
+  ]
+});
+
+console.log(form.data);
+// {
+//     name: {first: 'Michael', last: 'Mustermann'},
+//     phone: [
+//         {type: 'home', number: '1234567'},
+//         {type: 'mobile', number: '7654321'}
+//     ]
+// }
+```
+
+
+
 ## Special Events
 
 - `submit` - triggered when a form is submitted. Returns the `data` of the form as the only argument

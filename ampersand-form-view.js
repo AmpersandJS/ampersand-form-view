@@ -1,5 +1,6 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
+var set = require('lodash.set');
 var isFunction = require('lodash.isfunction');
 var result = require('lodash.result');
 
@@ -15,7 +16,7 @@ module.exports = View.extend({
                 var res = {};
                 for (var key in this._fieldViews) {
                     if (this._fieldViews.hasOwnProperty(key)) {
-                        res[key] = this._fieldViews[key].value;
+                        set(res, key, this._fieldViews[key].value);
                     }
                 }
                 return this.clean(res);

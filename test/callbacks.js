@@ -110,6 +110,26 @@ test('autoappend', function(t) {
     t.end();
 });
 
+test('verbose data', function (t) {
+    var fields = [
+        new FakeField({name: 'name.first', value: 'Michael'}),
+        new FakeField({name: 'name.last', value: 'Mustermann'}),
+        new FakeField({name: 'phone[0].type', value: 'home'}),
+        new FakeField({name: 'phone[0].number', value: '1234567'}),
+        new FakeField({name: 'phone[1].type', value: 'mobile'}),
+        new FakeField({name: 'phone[1].number', value: '7654321'})
+    ];
+    var form = new FormView({ fields: fields });
+    t.same(form.data, {
+        name: {first: 'Michael', last: 'Mustermann'},
+        phone: [
+            {type: 'home', number: '1234567'},
+            {type: 'mobile', number: '7654321'}
+        ]
+    }, 'verbose data should be correctly parsed');
+    t.end();
+});
+
 test('clean', function(t) {
 	var field = new FakeField({
 		name: 'some_field',
