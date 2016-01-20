@@ -19,7 +19,8 @@
     "ampersand-view": "^8.0.0",
     "lodash.isfunction": "^3.0.2",
     "lodash.result": "^3.0.0",
-    "lodash.set": "^3.7.4"
+    "lodash.set": "^3.7.4",
+    "zuul": "^3.9.0"
   },
   "devDependencies": {
     "ampersand-input-view": "^4.0.5",
@@ -30,10 +31,7 @@
     "jshint": "^2.6.0",
     "phantomjs": "^1.9.15",
     "precommit-hook": "^3.0.0",
-    "run-browser": "^2.0.2",
-    "tap-spec": "^4.0.2",
-    "tape": "^4.0.0",
-    "tape-run": "^1.0.0"
+    "tape": "^4.0.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-form-view",
   "keywords": [
@@ -49,8 +47,9 @@
   },
   "scripts": {
     "lint": "jshint .",
-    "start": "run-browser test/index.js",
-    "test": "browserify test/index.js | tape-run | tap-spec",
+    "start": "zuul --local -- test/index.js",
+    "test": "zuul --phantom -- test/index.js",
+    "test-ci": "zuul -- test/index.js",
     "debug": "browserify test/index.js -o debug.js",
     "preversion": "git checkout master && git pull && npm ls",
     "publish-patch": "npm run preversion && npm version patch && git push origin master --tags && npm publish",
