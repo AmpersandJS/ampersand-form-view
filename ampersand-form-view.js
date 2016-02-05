@@ -16,6 +16,8 @@ module.exports = View.extend({
                 var res = {};
                 for (var key in this._fieldViews) {
                     if (this._fieldViews.hasOwnProperty(key)) {
+                        // If field name ends with '[]', don't interpret
+                        // as verbose form field...
                         if (key.match(/\[\]$/)) {
                             res[key] = this._fieldViews[key].value;
                         } else {
