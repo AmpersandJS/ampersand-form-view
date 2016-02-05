@@ -130,22 +130,44 @@ test('verbose data', function (t) {
     t.end();
 });
 
+test('bracketed field names', function(t) {
+    var fields = [
+        new FakeField({name: 'foobars[]', value: [1,2,3,4]}),
+        new FakeField({name: 'name.first', value: 'Michael'}),
+        new FakeField({name: 'name.last', value: 'Mustermann'}),
+        new FakeField({name: 'phone[0].type', value: 'home'}),
+        new FakeField({name: 'phone[0].number', value: '1234567'}),
+        new FakeField({name: 'phone[1].type', value: 'mobile'}),
+        new FakeField({name: 'phone[1].number', value: '7654321'})
+    ];
+    var form = new FormView({ fields: fields });
+    t.same(form.data, {
+        'foobars[]': [1,2,3,4],
+        name: {first: 'Michael', last: 'Mustermann'},
+        phone: [
+            {type: 'home', number: '1234567'},
+            {type: 'mobile', number: '7654321'}
+        ]
+    }, 'verbose data should be correctly parsed while maintaining support for legacy field names ending in empty square brackets');
+    t.end();
+});
+
 test('clean', function(t) {
-	var field = new FakeField({
-		name: 'some_field',
-		value: '27'
-	});
-	var FormViewExtendedWithClean = FormView.extend({
-		clean: function(data) {
-			t.equal(data.some_field, field.value, 'data should have the raw value from the field');
-			data.some_field = Number(data.some_field);
-			return data;
-		}
-	});
-	var form = new FormViewExtendedWithClean({
-		fields: [ field ]
-	});
-	var data = form.data;
-	t.equal(data.some_field, Number(field.value), 'data should return cleaned data');
-	t.end();
+    var field = new FakeField({
+        name: 'some_field',
+        value: '27'
+    });
+    var FormViewExtendedWithClean = FormView.extend({
+        clean: function(data) {
+            t.equal(data.some_field, field.value, 'data should have the raw value from the field');
+            data.some_field = Number(data.some_field);
+            return data;
+        }
+    });
+    var form = new FormViewExtendedWithClean({
+        fields: [ field ]
+    });
+    var data = form.data;
+    t.equal(data.some_field, Number(field.value), 'data should return cleaned data');
+    t.end();
 });
