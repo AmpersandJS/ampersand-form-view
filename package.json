@@ -19,8 +19,7 @@
     "ampersand-view": "^8.0.0",
     "lodash.isfunction": "^3.0.2",
     "lodash.result": "^3.0.0",
-    "lodash.set": "^3.7.4",
-    "zuul": "^3.9.0"
+    "lodash.set": "^3.7.4"
   },
   "devDependencies": {
     "ampersand-input-view": "^4.0.5",
@@ -31,7 +30,8 @@
     "jshint": "^2.6.0",
     "phantomjs": "^1.9.15",
     "precommit-hook": "^3.0.0",
-    "tape": "^4.0.0"
+    "tape": "^4.0.0",
+    "zuul": "^3.9.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-form-view",
   "keywords": [
