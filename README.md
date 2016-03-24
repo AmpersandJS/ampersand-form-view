@@ -212,7 +212,7 @@ console.log(form.data);
 ## Changelog
 
 ## changelog
-- 5.0.0 - Upgrade to &-view 9.x
+- 6.0.0 - Upgrade to &-view 9.x
 - 5.1.0 - Add `submit` and `valid` events
 - 5.0.0 - Extend `ampersand-view` to add state, adds `setValues()`, `setValue()`, & `getValue()`.  Change to not render() during construction by default.
 - 4.0.0 - (skipped)
