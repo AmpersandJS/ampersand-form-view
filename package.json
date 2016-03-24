@@ -18,8 +18,8 @@
     "ampersand-version": "^1.0.0",
     "ampersand-view": "^9.0.2",
     "lodash.isfunction": "^3.0.2",
-    "lodash.result": "^4.2.0",
-    "lodash.set": "^4.0.0"
+    "lodash.result": "^3.0.0",
+    "lodash.set": "^3.7.4"
   },
   "devDependencies": {
     "ampersand-checkbox-view": "*",
