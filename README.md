@@ -128,7 +128,7 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
 Sets the provided value on the field matching the provided name.  Throws when invalid field name specified.
 
 
-### getValue `formView.setValue(name)`
+### getValue `formView.getValue(name)`
 
 Gets the value from the associated field matching the provided name.  Throws when invalid field name specified.
 
