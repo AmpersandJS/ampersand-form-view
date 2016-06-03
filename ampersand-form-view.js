@@ -1,8 +1,8 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
-var set = require('lodash.set');
-var isFunction = require('lodash.isfunction');
-var result = require('lodash.result');
+var set = require('lodash/set');
+var isFunction = require('lodash/isFunction');
+var result = require('lodash/result');
 
 module.exports = View.extend({
 
