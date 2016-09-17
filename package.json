@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "ampersand-version": "^1.0.0",
-    "ampersand-view": "^9.0.2",
     "lodash": "^4.11.1"
+    "ampersand-view": "^10.0.1",
   },
   "devDependencies": {
     "ampersand-checkbox-view": "*",
