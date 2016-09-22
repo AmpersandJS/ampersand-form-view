@@ -16,13 +16,13 @@
   },
   "dependencies": {
     "ampersand-version": "^1.0.0",
-    "ampersand-view": "^9.0.2",
+    "ampersand-view": "^10.0.1",
     "lodash": "^4.11.1"
   },
   "devDependencies": {
     "ampersand-checkbox-view": "*",
-    "ampersand-input-view": "^6.0.0",
-    "ampersand-model": "^6.0.3",
+    "ampersand-input-view": "^7.0.0",
+    "ampersand-model": "^8.0.0",
     "browserify": "^13.0.0",
     "jshint": "^2.6.0",
     "phantomjs-prebuilt": "^2.1.3",
