@@ -34,6 +34,7 @@ module.exports = View.extend({
     initialize: function(opts) {
         opts = opts || {};
         this.el = opts.el;
+        this.fieldContainerEl = opts.fieldContainerEl;
         this.validCallback = opts.validCallback || this.validCallback;
         this.submitCallback = opts.submitCallback || this.submitCallback;
         this.clean = opts.clean || this.clean || function (res) { return res; };
@@ -168,7 +169,7 @@ module.exports = View.extend({
             this.el = document.createElement('form');
         }
         if (this.autoAppend) {
-            this.fieldContainerEl = this.el.querySelector('[data-hook~=field-container]') || this.el;
+            this.fieldContainerEl = this.fieldContainerEl || this.el.querySelector('[data-hook~=field-container]') || this.el;
         }
         this._fieldViewsArray.forEach(function renderEachField(fV) {
             this.renderField(fV, true);
