@@ -169,7 +169,7 @@ module.exports = View.extend({
             this.el = document.createElement('form');
         }
         if (this.autoAppend) {
-            this.fieldContainerEl = this.fieldContainerEl || this.el.querySelector('[data-hook~=field-container]') || this.el;
+            this.fieldContainerEl = this.query(this.fieldContainerEl || '[data-hook~=field-container]') || this.el;
         }
         this._fieldViewsArray.forEach(function renderEachField(fV) {
             this.renderField(fV, true);
