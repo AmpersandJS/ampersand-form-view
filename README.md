@@ -114,11 +114,14 @@ Standard <a href="http://ampersandjs.com/learn/view-conventions">view convention
 * `fields` : array
     * Array of `FieldView`s.  If `autoAppend` is true, nodes defined by the view are built and appended to the end of the FormView.
 * `submitCallback` : function
-    * called on form submit
+    * Called on form submit
 * `validCallback` : function
-    *  this valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for example.
+    * This valid callback gets called (if it exists) when the form first loads and any time the form changes from valid to invalid or vice versa. You might use this to disable the "submit" button any time the form is invalid, for example.
 * `clean` : function
-    * Let's you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
+    * Lets you provide a function which will clean or modify what is returned by `getData` and passed to `submitCallback`.
+* `fieldContainerEl` : Element | string
+    * Container to append fields to (when `autoAppend` is `true`).
+    * This can either be a DOM element or a CSS selector string. If a string is passed, ampersand-view runs `this.query('YOUR STRING')` to try to find the element that should contain the fields. If you don't supply a `fieldContainerEl`, it will first try to find an element with the selector `'[data-hook~=field-container]'`. If no element for appending fields to is found, it will fallback to `this.el`.
 
 =======
 ## API Reference
