@@ -48,6 +48,7 @@ var getView = function (opts) {
             this.renderWithTemplate();
             this.form = new FormView({
                 autoRender: formOpts.autoRender,
+                autoAppend: formOpts.autoAppend,
                 el: this.queryByHook('test-form'),
                 model: this.model,
                 values: {
@@ -151,5 +152,19 @@ test('field value setter/getter', function(t) {
     t.equal(view.form.getValue('textarea'), 'Original value', 'getValue() extracts value from provided field');
     view.form.setValue('textarea', 'newValue');
     t.equal(view.form.getValue('textarea'), 'newValue', 'setValue() sets value on provided field');
+    t.end();
+});
+
+test('autoAppend === false', function(t) {
+    var view = getView({ form: { autoRender: true, autoAppend: false }});
+
+    t.equal(view.form.el.children.length, 0);
+
+    t.ok(view.form._fieldViewsArray.length, 3);
+
+    view.form._fieldViewsArray.every(function(field) {
+        t.ok(field.rendered);
+    });
+
     t.end();
 });
