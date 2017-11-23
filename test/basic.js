@@ -43,12 +43,13 @@ var getView = function (opts) {
 
     // Create a View with a nested FormView.
     var View = AmpersandView.extend({
-        template: '<form data-hook="test-form"></form>',
+        template: opts.template || '<form data-hook="test-form"></form>',
         render: function () {
             this.renderWithTemplate();
             this.form = new FormView({
                 autoRender: formOpts.autoRender,
                 autoAppend: formOpts.autoAppend,
+                fieldContainerEl: formOpts.fieldContainerEl,
                 el: this.queryByHook('test-form'),
                 model: this.model,
                 values: {
@@ -168,3 +169,39 @@ test('autoAppend === false', function(t) {
 
     t.end();
 });
+
+test('default fieldContainerEl', function(t) {
+    var view = getView({
+        form: {
+            autoRender: true
+        },
+        template: '<form data-hook="test-form"><div data-hook="field-container"></div></form>'
+    });
+
+    var fieldContainer = view.form.queryByHook('field-container');
+
+    t.equal(view.form.el.children.length, 1);
+    t.ok(fieldContainer);
+    t.equal(fieldContainer.children.length, 3);
+
+    t.end();
+});
+
+test('custom fieldContainerEl', function(t) {
+    var view = getView({
+        form: {
+            autoRender: true,
+            fieldContainerEl: '[data-hook=foobar-container]'
+        },
+        template: '<form data-hook="test-form"><div data-hook="foobar-container"></div></form>'
+    });
+
+    var fieldContainer = view.form.queryByHook('foobar-container');
+
+    t.equal(view.form.el.children.length, 1);
+    t.ok(fieldContainer);
+    t.equal(fieldContainer.children.length, 3);
+
+    t.end();
+});
+
