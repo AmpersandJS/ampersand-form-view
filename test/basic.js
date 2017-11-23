@@ -116,6 +116,60 @@ test('autoRender', function (t) {
     t.end();
 });
 
+test('do not render twice', function (t) {
+    var view = getView({ form: { autoRender: true } });
+    var form = view.form;
+
+    var fieldViewElsCopy = form._fieldViewsArray.map(function(field) {
+        return field.el;
+    });
+
+    t.ok(form.rendered, 'form did render');
+    //try rendering again
+    form.render();
+    //confirm that field view elements are the same
+    form._fieldViewsArray.every(function(field, i) {
+        t.equal(fieldViewElsCopy[i], field.el);
+    });
+
+    t.end();
+});
+
+test('remove', function (t) {
+    var view = getView({ form: { autoRender: true } });
+    var form = view.form;
+    t.ok(form.rendered, 'form did render');
+
+    form.remove();
+
+    t.ok(!form.rendered, 'form removed');
+
+    form._fieldViewsArray.forEach(function (field) {
+        t.ok(!field.rendered, 'field removed');
+    });
+
+    t.end();
+});
+
+test('removeField', function (t) {
+    var view = getView({ form: { autoRender: true } });
+    var form = view.form;
+    t.ok(form.rendered, 'form did render');
+    var textField = form.getField('text');
+    t.ok(textField);
+    t.ok(form._fieldViews.text);
+    t.ok(textField.rendered, 'text field did render');
+
+    form.removeField('foobar');//noop, but tests that it doesn't break
+    form.removeField('text');
+
+    t.ok(!textField.rendered, 'text field did get removed');
+    t.equal(form._fieldViewsArray.length, 2);
+    t.ok(!form._fieldViews.text);
+
+    t.end();
+});
+
 test('setValues', function(t) {
     var view = getView({ form: { autoRender: true }});
     var form = view.form;
