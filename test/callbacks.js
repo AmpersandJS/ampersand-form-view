@@ -106,10 +106,6 @@ test('on change:valid', function(t) {
     field.setValid(true);
 });
 
-test('autoappend', function(t) {
-    t.end();
-});
-
 test('verbose data', function (t) {
     var fields = [
         new FakeField({name: 'name.first', value: 'Michael'}),
