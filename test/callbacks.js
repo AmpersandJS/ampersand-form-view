@@ -49,6 +49,47 @@ test('submitCallback', function(t) {
     form.handleSubmit(document.createEvent('Event'));
 });
 
+test('preventDefault === false', function(t) {
+    t.plan(1);
+
+    var form = new FormView({
+        preventDefault: false,
+        submitCallback: function() {
+            t.fail('submit callback called when it shouldn\'t be');
+            t.end();
+        }
+    });
+    form.render();
+    var result = form.handleSubmit(document.createEvent('Event'));
+
+    t.strictEqual(result, undefined, 'form submission not intercepted');
+});
+
+test('prevent submission on invalid', function(t) {
+    t.plan(3);
+
+    var field = new FakeField({
+        name: 'field'
+    });
+
+    var form = new FormView({
+        fields: [field],
+        submitCallback: function() {
+            t.fail('submit callback called when it shouldn\'t be');
+            t.end();
+        }
+    });
+    form.render();
+    field.setValid(false);
+
+    t.notOk(field.valid, 'field is not valid');
+    t.notOk(form.valid, 'form is not valid');
+
+    var result = form.handleSubmit(document.createEvent('Event'));
+
+    t.strictEqual(result, false, 'form submission halted');
+});
+
 test('on submit', function(t) {
     var form = new FormView();
 
@@ -166,4 +207,20 @@ test('clean', function(t) {
     var data = form.data;
     t.equal(data.some_field, Number(field.value), 'data should return cleaned data');
     t.end();
+});
+
+test('deprecated: getData', function(t) {
+    var _warn = console.warn;
+
+    console.warn = function(message) {
+        t.ok(message);
+        console.warn = _warn;
+        t.end();
+    };
+
+    var form = new FormView();
+
+    form.render();
+
+    form.getData();
 });
